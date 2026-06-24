@@ -21,11 +21,12 @@ services:
     ports:
       - "${PORT}:${PORT}"
     depends_on:
-      - mongo:
-    condition: service_healthy
-      environment:
-        MONGO_URL: mongodb://mongo:27017
-      restart: always
+      mongo:
+        condition: service_healthy
+    environment:
+      MONGO_URL: mongodb://mongo:27017
+    restart: always
+
 
 volumes:
   mongo_data:
