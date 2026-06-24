@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: .
+    container_name: backend
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - mongo:
+	 condition: service_healthy
+    environment:
+      MONGO_URL: mongodb://mongo:27017
+    restart: always
+
+volumes:
+  mongo_data:
