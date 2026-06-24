@@ -3,7 +3,7 @@ version: "3.8"
 services:
 
   mongo:
-    image: mongo:latest
+    image: mongo:7.0  
     container_name: mongodb
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
